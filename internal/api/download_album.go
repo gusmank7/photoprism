@@ -82,11 +82,11 @@ func DownloadAlbum(router *gin.RouterGroup) {
 			}
 
 			fileName := photoprism.FileName(file.FileRoot, file.FileName)
-			alias := file.ShareBase(0)
+			alias := file.OriginalBase(0)
 			key := strings.ToLower(alias)
 
 			if seq := aliases[key]; seq > 0 {
-				alias = file.ShareBase(seq)
+				alias = file.OriginalBase(seq)
 			}
 
 			aliases[key] += 1
