@@ -82,17 +82,17 @@ func DownloadAlbum(router *gin.RouterGroup) {
 			}
 
 			fileName := photoprism.FileName(file.FileRoot, file.FileName)
-			alias := file.OriginalBase(0)
+			alias := file.ShareBase(0)
 			key := strings.ToLower(alias)
 
 			if seq := aliases[key]; seq > 0 {
-				alias = file.OriginalBase(seq)
+				alias = file.ShareBase(seq)
 			}
 
 			aliases[key] += 1
 
 			if fs.FileExists(fileName) {
-				if zipErr := fs.ZipFile(zipWriter, fileName, alias, false); zipErr != nil {
+				if zipErr := fs.ZipFile(zipWriter, fileName, "", false); zipErr != nil {
 					log.Errorf("download: failed to add %s (%s)", clean.Log(file.FileName), zipErr)
 					Abort(c, http.StatusInternalServerError, i18n.ErrZipFailed)
 					return
